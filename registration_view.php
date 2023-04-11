@@ -16,24 +16,46 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col">
-            <h1>Форма регистрации</h1>
-            <!--            <form action="registration.php" method="post">-->
-            <!--                <input type="text" name="login" class="form-control" id="login" placeholder="Логин"><br>-->
-            <!--                <input type="password" name="password" class="form-control" id="password" placeholder="Пароль"><br>-->
-            <!--                <input type="submit" name="submit" value="ADD" class="btn btn-success"><br>-->
-            <!--            </form>-->
-<!--            --><?php //flash(); ?>
-            <form method="post" action="registration.php">
-                <div class="mb-3">
-                    <label for="login" class="form-label">Login</label>
-                    <input type="text" class="form-control" id="login" name="login" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Register</button>
-            </form>
+            <?php
+            require_once __DIR__ . '/boot.php';
+
+            $user = null;
+
+            if (check_auth()) {
+                // Получим данные пользователя по сохранённому идентификатору
+                $stmt = pdo()->prepare("SELECT * FROM `users` WHERE `id` = :id");
+                $stmt->execute(['id' => $_SESSION['user_id']]);
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+            ?>
+            <?php if ($user) { ?>
+
+                <h1>Welcome back, <?= htmlspecialchars($user['username']) ?>!</h1>
+
+                <form class="mt-5" method="post" action="logout.php">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+
+            <?php } else { ?>
+                <h1>Форма регистрации</h1>
+                <!--            <form action="registration.php" method="post">-->
+                <!--                <input type="text" name="login" class="form-control" id="login" placeholder="Логин"><br>-->
+                <!--                <input type="password" name="password" class="form-control" id="password" placeholder="Пароль"><br>-->
+                <!--                <input type="submit" name="submit" value="ADD" class="btn btn-success"><br>-->
+                <!--            </form>-->
+                <!--            --><?php //flash(); ?>
+                <form method="post" action="registration.php">
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="login" name="login" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            <?php } ?>
         </div>
     </div>
 </div>

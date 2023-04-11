@@ -6,20 +6,28 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <title>Вход/Регистрация</title>
+    <title>Вход</title>
 </head>
 <body>
 
 <div class="container mt-4">
     <div class="row">
         <div class="col">
+            <?php
+            require_once __DIR__.'/boot.php';
+
+            if (check_auth()) {
+            header('Location: auth_view.php');
+            die;
+            }
+            ?>
             <h1>Форма входа</h1>
 <!--            <form action="auth.php" method="post">-->
 <!--                <input type="text" name="login" class="form-control" id="login" placeholder="Логин"><br>-->
 <!--                <input type="password" name="pass" class="form-control" id="pass" placeholder="Пароль"><br>-->
 <!--                <input type="submit" name="submit" value="AUTH" class="btn btn-success"><br><br>-->
 <!--            </form>-->
-<!--            --><?php //flash() ?>
+            <?php flash(); ?>
 
             <form method="post" action="auth.php">
                 <div class="mb-3">
